@@ -8,8 +8,14 @@ VERBS
 1) Load in 5desk.txt file
 2) Randomly select secret word between 5 and 12 characters long from file
 3) Make guess of a letter (case insensitive)
+---puts phrase to ask player to make a letter guess
+---receive it
+---check it against every letter in word
+-----good: "correct letter guess"
+-----bad: "incorrect. you have #{@@max_guesses} left"
 4) Update displays if letter was correct or incorrect
 5) Check if player is out of guesses
+6) Check if player has won the game
 
 NOUNS
 1) A Display of how many guesses left before you lose (class variable)
@@ -26,6 +32,7 @@ class Hangman
   def initialize
     @correct_letters = []
     @incorrect_letters = []
+    @word = ''
   end
 
   def load_file
@@ -33,11 +40,18 @@ class Hangman
   end
 
   def select_word(loaded_file)
-    loaded_file.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
+    @word = loaded_file.select { |n| n.length >= 5 && n.length <= 12 }.sample(1).to_s
+  end
+
+  def display_correct_letters
+    @word = selected_word.split('')
+    @word.each { @correct_letters.push('_') }
+    p @correct_letters
   end
 
 end
 
 my_class = Hangman.new
 # words = my_class.load_file
-# p my_class.select_word(words)
+# word = my_class.select_word(words)
+# my_class.display_correct_letters(word)
