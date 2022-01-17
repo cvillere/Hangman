@@ -25,6 +25,8 @@ class Hangman
 
   def load_file
     File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
-  end
-  
+  end 
 end
+
+my_class = Hangman.new
+p my_class.load_file
