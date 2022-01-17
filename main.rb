@@ -23,10 +23,21 @@ class Hangman
 
   attr_accessor :correct_letters, :incorrect_letters
 
+  def initialize
+    @correct_letters = []
+    @incorrect_letters = []
+  end
+
   def load_file
     File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
-  end 
+  end
+
+  def select_word(loaded_file)
+    loaded_file.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
+  end
+
 end
 
 my_class = Hangman.new
-p my_class.load_file
+# words = my_class.load_file
+# p my_class.select_word(words)
