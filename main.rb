@@ -25,33 +25,37 @@ NOUNS
 
 # Main class to play hangman game
 class Hangman
-  @@max_guesses = 9
 
-  attr_accessor :correct_letters, :incorrect_letters
+  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses
 
   def initialize
     @correct_letters = []
     @incorrect_letters = []
     @word = ''
+    @max_guesses = 9
   end
 
-  def load_file
-    File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
-  end
-
-  def select_word(loaded_file)
-    @word = loaded_file.select { |n| n.length >= 5 && n.length <= 12 }.sample(1).to_s
+  def generate_random_word
+    all_words = File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
+    @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1).to_s
   end
 
   def display_correct_letters
-    @word = selected_word.split('')
-    @word.each { @correct_letters.push('_') }
-    p @correct_letters
+    word_array = @word.split('')
+    word_array.each { @correct_letters.push('_') }
+    p @correct_letters.join(' ')
+  end
+
+  def provide_output
+    generate_random_word
+    display_correct_letters
+  end
+
+  def provide_instructions
+    puts "Guess a letter. You have #{@max_guesses} remaining"
   end
 
 end
 
 my_class = Hangman.new
-# words = my_class.load_file
-# word = my_class.select_word(words)
-# my_class.display_correct_letters(word)
+my_class.check_output
