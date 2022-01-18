@@ -31,31 +31,32 @@ class Hangman
   def initialize
     @correct_letters = []
     @incorrect_letters = []
-    @word = ''
+    @word =
     @max_guesses = 9
   end
 
   def generate_random_word
     all_words = File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
-    @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1).to_s
+    @word = all_words.each { |n| n.length >= 5 && n.length <= 12 }.sample(1)
   end
 
   def display_correct_letters
-    word_array = @word.split('')
+    word_array = @word.join('').split('')
     word_array.each { @correct_letters.push('_') }
-    p @correct_letters.join(' ')
+    @correct_letters.join(' ')
   end
 
   def provide_output
+    provide_instructions
     generate_random_word
     display_correct_letters
   end
 
-  def provide_instructions
-    puts "Guess a letter. You have #{@max_guesses} remaining"
+  def play_game
+    player_guess = gets.chomp.downcase
   end
 
 end
 
 my_class = Hangman.new
-my_class.check_output
+my_class.provide_instructions
