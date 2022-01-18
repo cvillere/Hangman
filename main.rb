@@ -26,28 +26,32 @@ NOUNS
 # Main class to play hangman game
 class Hangman
 
-  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses
+  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses, :word_array
 
   def initialize
     @correct_letters = []
     @incorrect_letters = []
-    @word =
+    @word = ''
+    @word_array = ''
     @max_guesses = 9
   end
 
   def generate_random_word
     all_words = File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
-    @word = all_words.each { |n| n.length >= 5 && n.length <= 12 }.sample(1)
+    @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
+  end
+
+  def create_word_array
+    @word_array = @word.join('').split('')
   end
 
   def display_correct_letters
-    word_array = @word.join('').split('')
+    create_word_array
     word_array.each { @correct_letters.push('_') }
-    @correct_letters.join(' ')
+    p @correct_letters.join(' ')
   end
 
   def provide_output
-    provide_instructions
     generate_random_word
     display_correct_letters
   end
@@ -59,4 +63,4 @@ class Hangman
 end
 
 my_class = Hangman.new
-my_class.provide_instructions
+my_class.provide_output
