@@ -46,8 +46,7 @@ class Hangman
   end
 
   def display_correct_letters
-    create_word_array
-    word_array.each { @correct_letters.push('_') }
+    create_word_array.each { @correct_letters.push('_') }
     p @correct_letters.join(' ')
   end
 
@@ -56,8 +55,26 @@ class Hangman
     display_correct_letters
   end
 
-  def play_game
+  def update_incorrect_guess(player_guess)
+    if @word_array.include?(player_guess) == false
+      @incorrect_letters.push(player_guess)
+    end
+  end
+
+  def grab_player_guess
     player_guess = gets.chomp.downcase
+  end
+
+  def update_correct_guess
+    # check player_guess against @word_array and update correct_letters || incorrect_letters
+    @word_array.each_with_index do |n, index|
+      if n == player_guess 
+        @correct_letters[index] = player_guess
+        provide_output
+      elsif @word_array.include?(player_guess)
+        @incorrect_letters.push
+      end
+    end
   end
 
 end
