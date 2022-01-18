@@ -39,6 +39,8 @@ class Hangman
   def generate_random_word
     all_words = File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
     @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
+    create_word_array.each { @correct_letters.push('_') }
+    display_correct_letters
   end
 
   def create_word_array
@@ -46,33 +48,42 @@ class Hangman
   end
 
   def display_correct_letters
-    create_word_array.each { @correct_letters.push('_') }
+    p "You have #{@max_guesses} remaining"
+    p "incorrect letters guessed: #{@incorrect_letters}"
     p @correct_letters.join(' ')
+    puts "-------------------------------------------------"
+    puts "What letter do you guess is a part of the word?"
+    player_guess = gets.chomp.downcase
+    deal_with_guess(player_guess)
   end
 
-  def provide_output
-    generate_random_word
+=begin
+  def grab_player_guess
+    puts "-------------------------------------------------"
+    puts "What letter do you guess is a part of the word?"
+    display_correct_letters
+    player_guess = gets.chomp.downcase
+  end
+=end
+
+  def update_correct_guess(player_guess)
+    @word_array.each_with_index do |n, index|
+      if n == player_guess
+        @correct_letters[index] = player_guess
+      end
+    end
+    @max_guesses -= 1
     display_correct_letters
   end
 
-  def update_incorrect_guess(player_guess)
-    if @word_array.include?(player_guess) == false
-      @incorrect_letters.push(player_guess)
-    end
-  end
-
-  def grab_player_guess
-    player_guess = gets.chomp.downcase
-  end
-
-  def update_correct_guess
-    # check player_guess against @word_array and update correct_letters || incorrect_letters
-    @word_array.each_with_index do |n, index|
-      if n == player_guess 
-        @correct_letters[index] = player_guess
-        provide_output
-      elsif @word_array.include?(player_guess)
-        @incorrect_letters.push
+  def deal_with_guess(player_guess)
+    until @max_guesses.zero?
+      if @word_array.include?(player_guess) == false
+        @incorrect_letters.push(player_guess)
+        @max_guesses -= 1
+        display_correct_letters
+      else
+        update_correct_guess(player_guess)
       end
     end
   end
@@ -80,4 +91,5 @@ class Hangman
 end
 
 my_class = Hangman.new
-my_class.provide_output
+my_class.generate_random_word
+my_class.deal_with_guess
