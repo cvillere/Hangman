@@ -48,23 +48,14 @@ class Hangman
   end
 
   def display_correct_letters
-    p "You have #{@max_guesses} remaining"
-    p "incorrect letters guessed: #{@incorrect_letters}"
+    p "You have #{@max_guesses} guesses remaining"
+    puts "incorrect letters guessed: #{@incorrect_letters}"
     p @correct_letters.join(' ')
     puts "-------------------------------------------------"
     puts "What letter do you guess is a part of the word?"
     player_guess = gets.chomp.downcase
     deal_with_guess(player_guess)
   end
-
-=begin
-  def grab_player_guess
-    puts "-------------------------------------------------"
-    puts "What letter do you guess is a part of the word?"
-    display_correct_letters
-    player_guess = gets.chomp.downcase
-  end
-=end
 
   def update_correct_guess(player_guess)
     @word_array.each_with_index do |n, index|
@@ -76,10 +67,16 @@ class Hangman
     display_correct_letters
   end
 
+  def pushing_incorrect_letters(player_guess)
+    if @incorrect_letters.include?(player_guess) == false
+      @incorrect_letters.push(player_guess)
+    end
+  end
+
   def deal_with_guess(player_guess)
     until @max_guesses.zero?
       if @word_array.include?(player_guess) == false
-        @incorrect_letters.push(player_guess)
+        pushing_incorrect_letters(player_guess)
         @max_guesses -= 1
         display_correct_letters
       else
