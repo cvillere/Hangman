@@ -70,15 +70,32 @@ class Hangman
   def pushing_incorrect_letters(player_guess)
     if @incorrect_letters.include?(player_guess) == false
       @incorrect_letters.push(player_guess)
+      @max_guesses -= 1
+      display_correct_letters
     end
   end
 
+  def play_another_game
+    play_again 
+  end
+
+  def determine_game_result
+    if @max_guesses.positive? == true && @correct_letters.include?('_') == false
+      puts 'You have won the game! Would you like to play again'
+      return
+    end
+    if @max_guesses.zero? == true && @correct_letters.include?('_') == true
+      puts 'You have lost the game!'
+    end
+  end
+
+
+  # work on creating a function for until condition to figure out what happens
+  # at the end of a game both win and loss
   def deal_with_guess(player_guess)
     until @max_guesses.zero?
       if @word_array.include?(player_guess) == false
         pushing_incorrect_letters(player_guess)
-        @max_guesses -= 1
-        display_correct_letters
       else
         update_correct_guess(player_guess)
       end
@@ -89,4 +106,3 @@ end
 
 my_class = Hangman.new
 my_class.generate_random_word
-my_class.deal_with_guess
