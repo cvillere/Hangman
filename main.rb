@@ -33,7 +33,7 @@ class Hangman
     @incorrect_letters = []
     @word = ''
     @word_array = ''
-    @max_guesses = 9
+    @max_guesses = 3
   end
 
   def generate_random_word
@@ -48,11 +48,12 @@ class Hangman
   end
 
   def display_correct_letters
+    determine_game_result
     p "You have #{@max_guesses} guesses remaining"
     puts "incorrect letters guessed: #{@incorrect_letters}"
     p @correct_letters.join(' ')
-    puts "-------------------------------------------------"
-    puts "What letter do you guess is a part of the word?"
+    puts '-------------------------------------------------'
+    puts 'What letter do you guess is a part of the word?'
     player_guess = gets.chomp.downcase
     deal_with_guess(player_guess)
   end
@@ -79,7 +80,7 @@ class Hangman
     play_again = gets.chomp
     while play_again != '1' || play_again != '2'
       if play_again == '1'
-        generate_random_word
+        Hangman.new.generate_random_word
       elsif play_again == '2'
         exit
       else
@@ -100,9 +101,6 @@ class Hangman
     end
   end
 
-
-  # work on creating a function for until condition to figure out what happens
-  # at the end of a game both win and loss
   def deal_with_guess(player_guess)
     until @max_guesses.zero?
       if @word_array.include?(player_guess) == false
@@ -112,7 +110,6 @@ class Hangman
       end
     end
   end
-
 end
 
 my_class = Hangman.new
