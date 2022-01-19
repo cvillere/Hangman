@@ -76,16 +76,27 @@ class Hangman
   end
 
   def play_another_game
-    play_again 
+    play_again = gets.chomp
+    while play_again != '1' || play_again != '2'
+      if play_again == '1'
+        generate_random_word
+      elsif play_again == '2'
+        exit
+      else
+        puts 'Incorrect entry. Please enter 1 to continue playing or 2 to stop playing'
+        play_again = gets.chomp
+      end
+    end
   end
 
   def determine_game_result
     if @max_guesses.positive? == true && @correct_letters.include?('_') == false
-      puts 'You have won the game! Would you like to play again'
-      return
+      puts 'You have won the game! Would you like to play again? 1 for Yes & 2 for No'
+      play_another_game
     end
     if @max_guesses.zero? == true && @correct_letters.include?('_') == true
-      puts 'You have lost the game!'
+      puts 'You have lost the game! Would you like to play again? 1 for Yes & 2 for No'
+      play_another_game
     end
   end
 
