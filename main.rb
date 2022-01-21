@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'yaml'
+require 'Date'
 
 # Main class to play hangman game
 class Hangman
@@ -15,9 +16,9 @@ class Hangman
   end
 
   def generate_random_word
-    all_words = File.read('/Users/christianvillere/the_odin_project/Ruby/hangman/5desk.txt').split
+    #serializer call here to deserialize and retrieve previously played games
+    all_words = File.read('./5desk.txt').split
     @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
-    puts "random word: #{@word}"
     create_word_array.each { @correct_letters.push('_') }
     display_correct_letters
   end
@@ -27,6 +28,7 @@ class Hangman
   end
 
   def display_correct_letters
+    # serializer call here to serialize the game and save it - use date to timestamp
     determine_game_result
     p "You have #{@max_guesses} guesses remaining"
     puts "incorrect letters guessed: #{@incorrect_letters}"
