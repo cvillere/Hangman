@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'yaml'
-require 'Date'
+require 'Time'
 
 # Main class to play hangman game
 class Hangman
@@ -16,7 +16,7 @@ class Hangman
   end
 
   def generate_random_word
-    #serializer call here to deserialize and retrieve previously played games
+    # serializer call here to deserialize and retrieve previously played games
     all_words = File.read('./5desk.txt').split
     @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
     create_word_array.each { @correct_letters.push('_') }
@@ -28,7 +28,7 @@ class Hangman
   end
 
   def display_correct_letters
-    # serializer call here to serialize the game and save it - use date to timestamp
+    save_game unless @max_guesses <= 8
     determine_game_result
     p "You have #{@max_guesses} guesses remaining"
     puts "incorrect letters guessed: #{@incorrect_letters}"
@@ -92,7 +92,28 @@ class Hangman
     end
   end
 
+  def save_game
+    puts 'Would you like to save the game? Enter 1 for yes & 2 for no'
+    game_save_resp = gets.chomp
+    case game_save_resp
+    when '1'
+      serialize_game
+    when '2'
+      return
+    else
+      puts 'Incorrect response. Please enter either a 1 to save or 2 to continue game'
+      save_game
+    end
+  end
+
+  def serialize_game
+    Dir.mkdir('saved_games') unless Dir.exist?('saved_games')
+    saved_file = "saved_games/game_#{Time.now}.yaml"
+    File.open(saved_file, 'w') { |f| YAML.dump([] << self, f) }
+  end
+
+
+
 end
 
 
-Hangman.new.generate_random_word
