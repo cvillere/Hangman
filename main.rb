@@ -28,11 +28,11 @@ class Hangman
   end
 
   def display_correct_letters
-    save_game unless @max_guesses <= 8
     determine_game_result
     p "You have #{@max_guesses} guesses remaining"
     puts "incorrect letters guessed: #{@incorrect_letters}"
     p @correct_letters.join(' ')
+    save_game unless @max_guesses >= 9
     puts '-------------------------------------------------'
     puts 'What letter do you guess is a part of the word?'
     player_guess = gets.chomp.downcase
@@ -98,6 +98,7 @@ class Hangman
     case game_save_resp
     when '1'
       serialize_game
+      puts "game saved!!"
     when '2'
       return
     else
@@ -112,8 +113,18 @@ class Hangman
     File.open(saved_file, 'w') { |f| YAML.dump([] << self, f) }
   end
 
-
-
+  def deserialize_game
+    puts 'Would you like to restart a game?'
+    puts Dir['./saved_games/*']
+    directory_games = Dir['./saved_games/*']
+    chosen_game = gets.chomp
+    while directory_games.include?(chosen_game) == false
+      puts 'That saved game does not exist. Please try another entry.'
+      chosen_game = gets.chomp
+    end
+    old_game = File.open(chosen_game, 'r') { YAML.load_file(chosen_game.to_s) }
+    old_game[0].display_correct_letters
+  end
 end
 
-
+Hangman.new.deserialize_game
