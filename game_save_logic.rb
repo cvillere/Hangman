@@ -1,5 +1,10 @@
 module Game_Save
 
+  def game_state
+    puts "#{@max_guesses} guesses remaining || incorrect letters guessed: #{@incorrect_letters}"
+    puts @correct_letters.join(' ')
+  end
+
   def save_game
     puts 'Enter 1 to save game & 2 to continue playing'
     game_save_resp = gets.chomp
@@ -8,11 +13,11 @@ module Game_Save
       serialize_game
       puts "game saved!!"
     when '2'
+      game_state
       return 
     else
       puts 'Incorrect response.'
-      puts "#{@max_guesses} guesses remaining || incorrect letters guessed: #{@incorrect_letters}"
-      puts @correct_letters.join(' ')
+      game_state
       save_game
     end
   end

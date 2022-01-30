@@ -31,14 +31,12 @@ class Hangman
 
   def display_correct_letters
     determine_game_result
-    puts "#{@max_guesses} guesses remaining || incorrect letters guessed: #{@incorrect_letters}"
-    puts @correct_letters.join(' ')
+    game_state
     trigger_save_game
     puts '-------------------------------------------------'
     puts 'What letter do you guess is a part of the word?'
     player_guess = gets.chomp.downcase
     deal_with_guess(player_guess)
-    # trigger_save_game
   end
 
   def update_correct_guess(player_guess)
@@ -93,7 +91,6 @@ class Hangman
       end
     end
   end
-
 end
 
 Hangman.new.choose_previous_game
