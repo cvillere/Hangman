@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 require 'yaml'
 require 'Time'
+require_relative 'game_save_logic'
 
 # Main class to play hangman game
 class Hangman
+
+  include Game_Save
 
   attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses, :word_array
 
@@ -28,14 +31,14 @@ class Hangman
 
   def display_correct_letters
     determine_game_result
-    p "You have #{@max_guesses} guesses remaining"
-    puts "incorrect letters guessed: #{@incorrect_letters}"
-    p @correct_letters.join(' ')
+    puts "#{@max_guesses} guesses remaining || incorrect letters guessed: #{@incorrect_letters}"
+    puts @correct_letters.join(' ')
     trigger_save_game
     puts '-------------------------------------------------'
     puts 'What letter do you guess is a part of the word?'
     player_guess = gets.chomp.downcase
     deal_with_guess(player_guess)
+    # trigger_save_game
   end
 
   def update_correct_guess(player_guess)
@@ -93,4 +96,4 @@ class Hangman
 
 end
 
-Hangman.new.generate_random_word
+Hangman.new.choose_previous_game
