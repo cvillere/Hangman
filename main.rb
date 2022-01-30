@@ -130,6 +130,7 @@ class Hangman
       save_game
     end
   end
+  
 end
 
 Hangman.new.generate_random_word
