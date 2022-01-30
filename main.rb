@@ -16,7 +16,6 @@ class Hangman
   end
 
   def generate_random_word
-    # serializer call here to deserialize and retrieve previously played games
     all_words = File.read('./5desk.txt').split
     @word = all_words.select { |n| n.length >= 5 && n.length <= 12 }.sample(1)
     create_word_array.each { @correct_letters.push('_') }
@@ -32,7 +31,7 @@ class Hangman
     p "You have #{@max_guesses} guesses remaining"
     puts "incorrect letters guessed: #{@incorrect_letters}"
     p @correct_letters.join(' ')
-    save_game unless @max_guesses >= 9
+    trigger_save_game
     puts '-------------------------------------------------'
     puts 'What letter do you guess is a part of the word?'
     player_guess = gets.chomp.downcase
@@ -125,6 +124,12 @@ class Hangman
     old_game = File.open(chosen_game, 'r') { YAML.load_file(chosen_game.to_s) }
     old_game[0].display_correct_letters
   end
+
+  def trigger_save_game
+    if @max_guesses < 9 || @correct_letters.join.match?(/[a-zA-Z]/)
+      save_game
+    end
+  end
 end
 
-Hangman.new.deserialize_game
+Hangman.new.generate_random_word
