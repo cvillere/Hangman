@@ -8,7 +8,7 @@ class Hangman
 
   include Game_Save
 
-  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses, :word_array, :save_flip
+  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses, :word_array
 
   def initialize
     @correct_letters = []
