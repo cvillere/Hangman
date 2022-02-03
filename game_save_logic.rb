@@ -29,8 +29,8 @@ module Game_Save
   end
 
   def deserialize_game
-    choose_previous_game
     puts Dir['./saved_games/*']
+    chosen_game = gets.chomp
     directory_games = Dir['./saved_games/*']
     while directory_games.include?(chosen_game) == false
       puts 'That saved game does not exist. Please try another entry.'

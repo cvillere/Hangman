@@ -8,7 +8,7 @@ class Hangman
 
   include Game_Save
 
-  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses, :word_array
+  attr_accessor :correct_letters, :incorrect_letters, :word, :max_guesses, :word_array, :save_flip
 
   def initialize
     @correct_letters = []
@@ -60,7 +60,7 @@ class Hangman
     play_again = gets.chomp
     while play_again != '1' || play_again != '2'
       if play_again == '1'
-        Hangman.new.generate_random_word
+        Hangman.new.choose_previous_game
       elsif play_again == '2'
         exit
       else
@@ -91,6 +91,10 @@ class Hangman
       end
     end
   end
+
 end
 
 Hangman.new.choose_previous_game
+# continue testing and trying to break game
+# once done post in Odin
+# Spend a little bit looking at other solutions
