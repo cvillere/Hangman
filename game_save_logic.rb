@@ -40,7 +40,6 @@ module Game_Save
     old_game[0].display_correct_letters
   end
 
-  # check if directory exists and files in there
   def choose_previous_game
     generate_random_word unless Dir.exist?('./saved_games')
     puts 'Would you like to restart a game? Enter 1 for yes and 2 for no'

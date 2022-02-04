@@ -95,6 +95,3 @@ class Hangman
 end
 
 Hangman.new.choose_previous_game
-# continue testing and trying to break game
-# once done post in Odin
-# Spend a little bit looking at other solutions
