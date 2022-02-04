@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'yaml'
-require 'Time'
+require 'time'
 require_relative 'game_save_logic'
 
 # Main class to play hangman game

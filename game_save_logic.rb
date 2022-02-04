@@ -12,6 +12,7 @@ module Game_Save
     when '1'
       serialize_game
       puts "game saved!!"
+      game_state
     when '2'
       game_state
       return 
