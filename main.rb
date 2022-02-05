@@ -94,4 +94,5 @@ class Hangman
 
 end
 
+# Hangman.new.choose_deser_game
 Hangman.new.choose_previous_game

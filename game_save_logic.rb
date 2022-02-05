@@ -29,16 +29,25 @@ module Game_Save
     File.open(saved_file, 'w') { |f| YAML.dump([] << self, f) }
   end
 
-  def deserialize_game
-    puts Dir['./saved_games/*']
-    chosen_game = gets.chomp
-    directory_games = Dir['./saved_games/*']
-    while directory_games.include?(chosen_game) == false
+  def deserialize_game(selection)
+    restarted_game = Dir['./saved_games/*'][selection]
+    while Dir['./saved_games/*'].include?(restarted_game) == false
       puts 'That saved game does not exist. Please try another entry.'
-      chosen_game = gets.chomp
+      player_selection = gets.chomp
+      restarted_game = Dir['./saved_games/*'][player_selection]
     end
-    old_game = File.open(chosen_game, 'r') { YAML.load_file(chosen_game.to_s) }
+    old_game = File.open(restarted_game, 'r') { YAML.load_file(restarted_game.to_s) }
     old_game[0].display_correct_letters
+  end
+
+  def choose_deser_game
+    (Dir['./saved_games/*']).each_with_index { |h, i| puts "Game Number(#{i + 1}) -- #{h}" }
+    puts 'Select Game Number.'
+    game_num = gets.chomp.to_i
+    selected_game = game_num - 1
+    deserialize_game(selected_game) if game_num.between?(1, Dir['./saved_games/*'].length)
+    puts 'invalid selection' unless game_num.between?(1, Dir['./saved_games/*'].length)
+    choose_deser_game
   end
 
   def choose_previous_game
@@ -46,7 +55,7 @@ module Game_Save
     puts 'Would you like to restart a game? Enter 1 for yes and 2 for no'
     user_choice = gets.chomp
     if user_choice == '1'
-      deserialize_game
+      choose_deser_game
     elsif user_choice == '2'
       generate_random_word
     else
